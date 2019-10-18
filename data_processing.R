@@ -1,6 +1,7 @@
 # ---- Set Working Directory ----
 setwd("C:/Users/Natasha/projects/animal_data_science_shiny_app/")
 
+
 # ---- Load libraries ----
 library(lubridate)
 library(tidyverse)
@@ -44,6 +45,9 @@ glimpse(nb_data)
 nb_data$datetime <- mdy_hm(nb_data$datetime,tz=Sys.timezone())
 glimpse(nb_data)
 
+# Save as cleaned data file.
+save(nb_data, file = "nb_data.rds")
+
 # ---- Graph Data ----
 ap_plot <- ggplot(nb_data, aes(x = datetime, y = air_pressure)) +
   geom_line() +
@@ -67,7 +71,7 @@ l_plot <- ggplot(nb_data, aes(x = datetime, y = light)) +
 
 m_plot <- ggplot(nb_data, aes(x = datetime, y = movement)) +
   geom_bar(stat = "identity") +
-  ggtitle("movement") +
+  ggtitle("Movement (secs per min)") +
   theme_classic()
 
 # Multiple plot function
@@ -116,4 +120,5 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
   }
 }
 
-mv_plot <- multiplot(ap_plot, h_plot, t_plot, l_plot, m_plot, cols=1)
+multiplot(ap_plot, h_plot, t_plot, l_plot, m_plot, cols=1)
+# Cannot save plot with mulitplot function... to investigate in the future!
